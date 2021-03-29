@@ -1,41 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { AppRoot, View, Panel, PanelHeader, Header, Group, Cell } from '@vkontakte/vkui';
+import '@vkontakte/vkui/dist/vkui.css';
 
-
-class Title extends React.Component {
-  render() {
-    return (<h1 className="">{this.props.label}</h1>)
-  }
+function App () {
+  return (
+    <AppRoot>
+      <View activePanel="main">
+        <Panel id="main">
+          <PanelHeader>VKUI</PanelHeader>
+          <Group header={<Header mode="secondary">Items</Header>}>
+            <Cell>Hello</Cell>
+            <Cell>World</Cell>
+          </Group>
+        </Panel>
+      </View>
+    </AppRoot>
+  );
 }
 
-class Paragraph extends React.Component {
-  render() {
-    return (
-      <p className="">
-      {this.props.text}
-      </p>
-    )
-  }
-}
-
-class Main extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return  (
-      <div className="">
-        <Title label={this.props.title} />
-          <Paragraph text={this.props.text} />
-      </div>
-    )
-  }
-}
-
-
-ReactDOM.render(
-  <Main title="React" text="Caution: do not look into laser with remaining eye."></Main>,
-  document.getElementById('react-app')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
