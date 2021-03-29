@@ -1,61 +1,46 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { AppRoot, View, Panel, PanelHeader, Header, Group, Cell } from '@vkontakte/vkui';
-import '@vkontakte/vkui/dist/vkui.css';
+import { View, Panel, ConfigProvider } from '@vkontakte/vkui';
+import vkBridge from '@vkontakte/vk-bridge';
 
-function App () {
-  return (
-    <AppRoot>
-      <View activePanel="main">
-        <Panel id="main">
-          <PanelHeader>VKUI</PanelHeader>
-          <Group header={<Header mode="secondary">Items</Header>}>
-            <Cell>Hello</Cell>
-            <Cell>World</Cell>
-          </Group>
-        </Panel>
-      </View>
-    </AppRoot>
-  );
-}
+class App extends React.Component {
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeView: 'view1'
-    }
+  state = {
+    activePanel: 'main',
+    history: ['main']
   }
 
-  render() {
+  goBack = () => {
+    const history = [...this.state.history];
+    history.pop();
+    const activePanel = history[history.length - 1];
+    if (activePanel === 'main') {
+      vkBridge.send('VKWebAppEnableSwipeBack');
+    }
+    this.setState({ history, activePanel });
+  }
+
+  goForward = (activePanel) => {
+    const history = [...this.state.history];
+    history.push(activePanel);
+    if (this.state.activePanel === 'main') {
+      vkBridge.send('VKWebAppDisableSwipeBack');
+    }
+    this.setState({ history, activePanel });
+  }
+
+  render () {
     return (
-      <Root activeView={this.state.activeView}>
-        <View activePanel="panel1.1" id="view1">
-          <Panel id="panel1.1">
-            <PanelHeader>View 1</PanelHeader>
-            <Group>
-              <CellButton onClick={ () => this.setState({ activeView: 'view2' }) }>
-                Open View 2
-              </CellButton>
-            </Group>
-          </Panel>
+      <ConfigProvider isWebView={true}>
+        <View
+          onSwipeBack={this.goBack}
+          history={this.state.history}
+          activePanel={this.state.activePanel}
+        >
+          <Panel id="main"/>
+          <Panel id="profile"/>
+          <Panel id="education"/>
         </View>
-        <View header activePanel="panel2.1" id="view2">
-          <Panel id="panel2.1">
-            <PanelHeader>View 2</PanelHeader>
-            <Group>
-              <CellButton onClick={ () => this.setState({ activeView: 'view1' }) }>
-                Back to View 1
-              </CellButton>
-            </Group>
-          </Panel>
-        </View>
-      </Root>
+      </ConfigProvider>
     )
   }
 }
-
-<Example />
