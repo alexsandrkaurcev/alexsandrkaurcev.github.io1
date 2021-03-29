@@ -53,3 +53,20 @@ const SideCol = () => {
     <Panel id="nav">Navigation</Panel>
   );
 };
+
+<SplitLayout header={viewWidth >= ViewWidth.SMALL_TABLET && <PanelHeader separator={false} />}>
+      {viewWidth === ViewWidth.DESKTOP &&
+        <SplitCol width="280px">
+          <Panel id="nav">Navigation</Panel>
+        </SplitCol>
+      }
+      <SplitCol spaced={viewWidth >= ViewWidth.SMALL_TABLET} animate={viewWidth <= ViewWidth.MOBILE}>
+        <View activePanel="profile">
+          <Panel id="profile">Profile</Panel>
+        </View>
+      </SplitCol>
+    </SplitLayout>
+  // ...
+}
+
+App = withAdaptivity(App, { viewWidth: true });
