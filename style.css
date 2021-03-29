@@ -1,0 +1,25 @@
+body {
+    font-size: 15pt;
+    background-color: #00010D;
+    color: #FFFFFF;
+}
+   .block1 { 
+    width: 95%; 
+    background: #fc0;
+    color: #000000;
+    float: none;
+    padding-top: 5%;
+    padding-bottom:5%;
+    border-radius: 10px;
+    padding-left: 5%;
+   }
+      .block2 { 
+    width: 100%; 
+    background: #4CFCBB;
+    color: #000000;
+    float: none;
+    padding-top: 2%;
+    padding-bottom:2%;
+    border-radius: 10px;
+   }
+   
