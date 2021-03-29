@@ -1,46 +1,41 @@
 import React from 'react';
-import { View, Panel, ConfigProvider } from '@vkontakte/vkui';
-import vkBridge from '@vkontakte/vk-bridge';
+import ReactDOM from 'react-dom';
 
-class App extends React.Component {
 
-  state = {
-    activePanel: 'main',
-    history: ['main']
+class Title extends React.Component {
+  render() {
+    return (<h1 className="">{this.props.label}</h1>)
   }
+}
 
-  goBack = () => {
-    const history = [...this.state.history];
-    history.pop();
-    const activePanel = history[history.length - 1];
-    if (activePanel === 'main') {
-      vkBridge.send('VKWebAppEnableSwipeBack');
-    }
-    this.setState({ history, activePanel });
-  }
-
-  goForward = (activePanel) => {
-    const history = [...this.state.history];
-    history.push(activePanel);
-    if (this.state.activePanel === 'main') {
-      vkBridge.send('VKWebAppDisableSwipeBack');
-    }
-    this.setState({ history, activePanel });
-  }
-
-  render () {
+class Paragraph extends React.Component {
+  render() {
     return (
-      <ConfigProvider isWebView={true}>
-        <View
-          onSwipeBack={this.goBack}
-          history={this.state.history}
-          activePanel={this.state.activePanel}
-        >
-          <Panel id="main"/>
-          <Panel id="profile"/>
-          <Panel id="education"/>
-        </View>
-      </ConfigProvider>
+      <p className="">
+      {this.props.text}
+      </p>
     )
   }
 }
+
+class Main extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return  (
+      <div className="">
+        <Title label={this.props.title} />
+          <Paragraph text={this.props.text} />
+      </div>
+    )
+  }
+}
+
+
+ReactDOM.render(
+  <Main title="Alexsandr Kaurcev" text=Реально закрыл проект.."></Main>,
+  document.getElementById('react-app')
+);
