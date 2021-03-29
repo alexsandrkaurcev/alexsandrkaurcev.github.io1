@@ -21,52 +21,41 @@ function App () {
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-function App() {
-  return (
-    <ConfigProvider>
-      <AdaptivityProvider>
-        <AppRoot>
-          <SplitLayout>
-            <SplitCol width="280px">
-              <SideCol />
-            </SplitCol>
-            <SplitCol>
-              <MainScreens />
-            </SplitCol>
-          </SplitLayout>
-        </AppRoot>
-      </AdaptivityProvider>
-    </ConfigProvider>
-  );
-}
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
 
-const MainScreens = () => {
-  return (
-    <View activePanel="profile">
-      <Panel id="profile">Profile</Panel>
-    </View>
-  )
-};
+    this.state = {
+      activeView: 'view1'
+    }
+  }
 
-const SideCol = () => {
-  return (
-    <Panel id="nav">Navigation</Panel>
-  );
-};
-
-<SplitLayout header={viewWidth >= ViewWidth.SMALL_TABLET && <PanelHeader separator={false} />}>
-      {viewWidth === ViewWidth.DESKTOP &&
-        <SplitCol width="280px">
-          <Panel id="nav">Navigation</Panel>
-        </SplitCol>
-      }
-      <SplitCol spaced={viewWidth >= ViewWidth.SMALL_TABLET} animate={viewWidth <= ViewWidth.MOBILE}>
-        <View activePanel="profile">
-          <Panel id="profile">Profile</Panel>
+  render() {
+    return (
+      <Root activeView={this.state.activeView}>
+        <View activePanel="panel1.1" id="view1">
+          <Panel id="panel1.1">
+            <PanelHeader>View 1</PanelHeader>
+            <Group>
+              <CellButton onClick={ () => this.setState({ activeView: 'view2' }) }>
+                Open View 2
+              </CellButton>
+            </Group>
+          </Panel>
         </View>
-      </SplitCol>
-    </SplitLayout>
-  // ...
+        <View header activePanel="panel2.1" id="view2">
+          <Panel id="panel2.1">
+            <PanelHeader>View 2</PanelHeader>
+            <Group>
+              <CellButton onClick={ () => this.setState({ activeView: 'view1' }) }>
+                Back to View 1
+              </CellButton>
+            </Group>
+          </Panel>
+        </View>
+      </Root>
+    )
+  }
 }
 
-App = withAdaptivity(App, { viewWidth: true });
+<Example />
