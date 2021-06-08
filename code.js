@@ -1,2 +1,10 @@
-/* на чистом JavaScript */
-document.querySelector('.demo').innerHTML = "Подарочный сертификат на 10 000 руб. <a href='https://ostogramm.ru/redirect/?to=&anchor='>Скачать</a>";
+var name = prompt("Какое ваше имя?");
+
+var el = document.getElementById('name');
+if (typeof el.innerText !== 'undefined') {
+    // IE8-
+    el.innerText = name;
+} else {
+    // Нормальные браузеры
+    el.textContent = name;
+}
